@@ -1,0 +1,65 @@
+$ 
+	Return ok if all good
+RSTOP
+	Stop moves in progress
+MECLEARX
+	Clear errors for limit (note: theres only XY motors)
+MECLEARY
+	Clear errors for limit (note: theres only XY motors)
+MECLEARZ
+	Clear errors for limit (note: theres only XY motors)
+MECLEARU
+	Clear errors for limit (note: theres only XY motors)
+I1=4204544
+	(needs research)
+I2=3136
+	(needs research)
+I3=13041778
+	"X Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
+I4=0
+	"Y Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
+I5=0
+	"Z Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
+I6=0
+	"U Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
+I7=10
+	"bit 0-11 (X closed loop tol)
+	 bit 12-23 (Y closed loop tol)"
+I8=0
+	"bit 0-11 (Z closed loop tol)
+	 bit 12-23 (U closed loop tol)"
+I9=2000
+	"bit 0-11 (X closed loop err),
+	 bit 12-23 (Y closed loop err)"
+I10=0
+	"bit 0-11 (Z closed loop err),
+	 bit 12-23 (U closed loop err)"
+I11=2
+	"Bit 0-1 Encoder Multiplication X
+	 Bit 2-3 Encoder Multiplication Y
+	 Bit 4-5 Encoder Multiplication Z
+	 Bit 6-7 Encoder Multiplication U"
+$ 
+	Return ok if all good
+RSTOP
+	Stop moves in progress
+MECLEARX
+	Clear errors for limit (note: theres only XY motors)
+I1=4204544
+	(needs research)
+HSPD 24000
+	Sets the high speed in pulses per second.
+	Maximum value for high speed is 6M
+LSPD 9600
+	Sets the low speed in pulses per second.
+	Maximum value for high speed is 6M
+ACCEL 300
+	Sets the acceleration time in milliseconds.
+	Acceleration time is the time to ramp from low speed to high speed.
+	If the high speed and low speed are close, actual acceleration time can be less than set
+	acceleration time.
+INC
+	Set the move mode to incremental mode. All the moves issued after are considered
+	incremental move commands.
+	If this command is a part of motion program, it sets the mode to incremental for that
+	program only.

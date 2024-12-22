@@ -1,34 +1,41 @@
-$ 
+$
 	Return ok if all good
 RSTOP
-	Stop moves in progress
+	Performs decelerated stops to selected motors
 MECLEARX
-	Clear errors for limit (note: theres only XY motors)
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
 MECLEARY
-	Clear errors for limit (note: theres only XY motors)
-MECLEARZ
-	Clear errors for limit (note: theres only XY motors)
-MECLEARU
-	Clear errors for limit (note: theres only XY motors)
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
 I1=4204544
-	(needs research)
+	10000000010100000000000
+	bit 11 - dir polarity X
+	bit 13 - dir polarity Y
+	bit 22 – Enable Ramp Homing
 I2=3136
-	(needs research)
+	110001000000
+	bit 6 Enable Closed loop control X
+	bit 10 Closed Loop Attempt Number X
+	bit 11 Closed Loop Attempt Number Y
 I3=13041778
-	"X Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
+	110001110000000001110010
+	"X Axis Encoder Control bit 0-11 (encoder resolution),
+	bit 12-23 (motor resolution)"
+	000001110010
+	114
+	110001110000
+	3184
 I4=0
-	"Y Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
-I5=0
-	"Z Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
-I6=0
-	"U Axis Encoder Control bit 0-11 (encoder resolution), bit 12-23 (motor resolution)"
+	"Y Axis Encoder Control bit 0-11 (encoder resolution),
+	bit 12-23 (motor resolution)"
 I7=10
+	1010
 	"bit 0-11 (X closed loop tol)
 	 bit 12-23 (Y closed loop tol)"
 I8=0
 	"bit 0-11 (Z closed loop tol)
 	 bit 12-23 (U closed loop tol)"
 I9=2000
+	11111010000
 	"bit 0-11 (X closed loop err),
 	 bit 12-23 (Y closed loop err)"
 I10=0
@@ -44,9 +51,13 @@ $
 RSTOP
 	Stop moves in progress
 MECLEARX
-	Clear errors for limit (note: theres only XY motors)
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
 I1=4204544
-	(needs research)
+	10000000010100000000000
+	10000000010100000000000
+	bit 11 - dir polarity X
+	bit 13 - dir polarity Y
+	bit 22 – Enable Ramp Homing
 HSPD 24000
 	Sets the high speed in pulses per second.
 	Maximum value for high speed is 6M
@@ -59,7 +70,364 @@ ACCEL 300
 	If the high speed and low speed are close, actual acceleration time can be less than set
 	acceleration time.
 INC
+	(THIS GETS RETURNED WITH ?0 WICH IS AN INVALID REPLY)
 	Set the move mode to incremental mode. All the moves issued after are considered
 	incremental move commands.
 	If this command is a part of motion program, it sets the mode to incremental for that
 	program only.
+EX=0
+	Interactive Mode
+	Sets current encoder position of X
+PX=0
+	Interactive Mode
+	Sets current pulse position of X
+I2=3072
+	110000000000
+	bit 10 Closed Loop Attempt Number X
+	bit 11 Closed Loop Attempt Number Y
+MSTX
+	0
+	Returns the motor status
+	null
+HOMEX-
+	Homes the X motor in negative direction
+MSTX
+	1
+	Returns the motor status
+	accelerating
+MSTX
+	4
+	Returns the motor status
+	constant speeding
+MSTX
+	2
+	Returns the motor status
+	decelerating
+MSTX
+	0
+	Returns the motor status
+	null
+I2=3136
+	110001000000
+	bit 6 Enable Closed loop control X
+	bit 10 Closed Loop Attempt Number X
+	bit 11 Closed Loop Attempt Number Y
+I7=15
+	1111
+	"bit 0-11 (X closed loop tol)
+	 bit 12-23 (Y closed loop tol)"
+MSTX
+	1
+	Returns the motor status
+	accelerating
+MSTX
+	4
+	Returns the motor status
+	constant speeding
+MSTX
+	2
+	Returns the motor status
+	decelerating
+MSTX
+	0
+	Returns the motor status
+	null
+X-200
+	Move the selected axis to locations in linear coordination
+MSTX
+	1
+	Returns the motor status
+	accelerating
+MSTX
+	2
+	Returns the motor status
+	decelerating
+MSTX
+	0
+	Returns the motor status
+	null
+LSPD 800
+	Sets the low speed in pulses per second.
+	Maximum value for high speed is 6M
+I7=2
+	10
+	"bit 0-11 (X closed loop tol)
+	 bit 12-23 (Y closed loop tol)"
+X-200
+	Move the selected axis to locations in linear coordination
+MSTX
+	0
+	Returns the motor status
+	null
+I7=10
+	1010
+	"bit 0-11 (X closed loop tol)
+	 bit 12-23 (Y closed loop tol)"
+MIOY
+	64
+	1000000
+	Returns the motor status.
+	bit 0 – Alarm Switch Status
+	bit 1 - +Limit Switch Status
+	bit 2 - -Limit Switch Status
+	bit 3 – Home Switch Status
+	bit 4 – InPos Switch Status
+	bit 5 – Z Encoder Index Channel Status
+MECLEARY
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+$
+	Return ok if all good
+RSTOP
+	Performs decelerated stops to selected motors
+MECLEARX
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+I1=4204544
+	10000000010100000000000
+	bit 11 - dir polarity X
+	bit 13 - dir polarity Y
+	bit 22 – Enable Ramp Homing
+HSPD 24000
+	Sets the high speed in pulses per second.
+	Maximum value for high speed is 6M
+LSPD 9600
+	Sets the low speed in pulses per second.
+	Maximum value for high speed is 6M
+ACCEL 300
+	Sets the acceleration time in milliseconds.
+	Acceleration time is the time to ramp from low speed to high speed.
+	If the high speed and low speed are close, actual acceleration time can be less than set
+	acceleration time.
+INC
+	(THIS GETS RETURNED WITH ?0 WICH IS AN INVALID REPLY)
+	Set the move mode to incremental mode. All the moves issued after are considered
+	incremental move commands.
+	If this command is a part of motion program, it sets the mode to incremental for that
+	program only.
+EX=0
+	Interactive Mode
+	Sets current encoder position of X
+PX=0
+	Interactive Mode
+	Sets current pulse position of X
+I2=3072
+	110000000000
+	bit 10 Closed Loop Attempt Number X
+	bit 11 Closed Loop Attempt Number Y
+MSTX
+	0
+	Returns the motor status
+	null
+HOMEX-
+	Homes the X motor in negative direction
+MSTX
+	1
+	Returns the motor status
+	accelerating
+MSTX
+	4
+	Returns the motor status
+	constant speeding
+MSTX
+	2
+	Returns the motor status
+	decelerating
+MSTX
+	0
+	Returns the motor status
+	null
+I2=3136
+	110001000000
+	bit 6 Enable Closed loop control X
+	bit 10 Closed Loop Attempt Number X
+	bit 11 Closed Loop Attempt Number Y
+I7=15
+	1111
+	"bit 0-11 (X closed loop tol)
+	 bit 12-23 (Y closed loop tol)"
+MSTX
+	1
+	Returns the motor status
+	accelerating
+MSTX
+	4
+	Returns the motor status
+	constant speeding
+MSTX
+	2
+	Returns the motor status
+	decelerating
+MSTX
+	0
+	Returns the motor status
+	null
+MECLEARX
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+$
+	Return ok if all good
+RSTOP
+	Performs decelerated stops to selected motors
+MECLEARY
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+HSPD 9600
+	Sets the high speed in pulses per second.
+	Maximum value for high speed is 6M
+LSPD 3200
+	Sets the low speed in pulses per second.
+	Maximum value for high speed is 6M
+ACCEL 300
+	Sets the acceleration time in milliseconds.
+	Acceleration time is the time to ramp from low speed to high speed.
+	If the high speed and low speed are close, actual acceleration time can be less than set
+	acceleration time.
+INC
+	(THIS GETS RETURNED WITH ?0 WICH IS AN INVALID REPLY)
+	Set the move mode to incremental mode. All the moves issued after are considered
+	incremental move commands.
+	If this command is a part of motion program, it sets the mode to incremental for that
+	program only.
+EY=0
+	Interactive Mode
+	Sets current encoder position of Y
+PY=0
+	Interactive Mode
+	Sets current pulse position of Y
+MIOY
+	64
+	1000000
+	Returns the motor status.
+	bit 0 – Alarm Switch Status
+	bit 1 - +Limit Switch Status
+	bit 2 - -Limit Switch Status
+	bit 3 – Home Switch Status
+	bit 4 – InPos Switch Status
+	bit 5 – Z Encoder Index Channel Status
+Y-5000
+	Move the selected axis to locations in linear coordination
+MSTY
+	1
+	Returns the motor status
+	accelerating
+MSTY
+	4
+	Returns the motor status
+	constant speeding
+MSTY
+	2
+	Returns the motor status
+	decelerating
+MSTY
+	0
+	Returns the motor status
+	null
+MECLEARY
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+HOMEY+
+	Homes the Y motor in positive direction
+MSTY
+	1
+	Returns the motor status
+	accelerating
+MSTY
+	4
+	Returns the motor status
+	constant speeding
+MSTY
+	2
+	Returns the motor status
+	decelerating
+MSTY
+	0
+	Returns the motor status
+	null
+EX
+	Returns the current encoder position of XYZU motor.
+EX=0
+	Interactive Mode
+	Sets current encoder position of X
+PY
+	Returns the current pulse position of XYZU motor
+PY=1926
+	Interactive Mode
+	Sets current pulse position of Y
+MIOY
+	72
+	1001000
+	Returns the motor status.
+	bit 0 – Alarm Switch Status
+	bit 1 - +Limit Switch Status
+	bit 2 - -Limit Switch Status
+	bit 3 – Home Switch Status
+	bit 4 – InPos Switch Status
+	bit 5 – Z Encoder Index Channel Status
+MECLEARY
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+$
+	Return ok if all good
+RSTOP
+	Performs decelerated stops to selected motors
+MECLEARY
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+MECLEARX
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+HSPD 120000
+	Sets the high speed in pulses per second.
+	Maximum value for high speed is 6M
+LSPD 4000
+	Sets the low speed in pulses per second.
+	Maximum value for high speed is 6M
+ACCEL 500
+	Sets the acceleration time in milliseconds.
+	Acceleration time is the time to ramp from low speed to high speed.
+	If the high speed and low speed are close, actual acceleration time can be less than set
+	acceleration time.
+I7=15
+	1111
+	"bit 0-11 (X closed loop tol)
+	 bit 12-23 (Y closed loop tol)"
+I2=3136
+	110001000000
+	bit 6 Enable Closed loop control X
+	bit 10 Closed Loop Attempt Number X
+	bit 11 Closed Loop Attempt Number Y
+Y-86500
+	Move the selected axis to locations in linear coordination
+MSTY
+	1
+	Returns the motor status
+	accelerating
+MSTY
+	4
+	Returns the motor status
+	constant speeding
+MSTY
+	2
+	Returns the motor status
+	decelerating
+MSTY
+	0
+	Returns the motor status
+	null
+MIOY
+	64
+	1000000
+	Returns the motor status.
+	bit 0 – Alarm Switch Status
+	bit 1 - +Limit Switch Status
+	bit 2 - -Limit Switch Status
+	bit 3 – Home Switch Status
+	bit 4 – InPos Switch Status
+	bit 5 – Z Encoder Index Channel Status
+MECLEARY
+	MECLEAR is used to clear the motor error that might have been caused by the limit or alarm switch.
+$
+	Return ok if all good
+EX
+	Returns the current encoder position of XYZU motor.
+EX=0
+	Interactive Mode
+	Sets current encoder position of X
+PY
+	Returns the current pulse position of XYZU motor
+PY=-86500
+	Interactive Mode
+	Sets current pulse position of Y

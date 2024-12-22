@@ -1,0 +1,41 @@
+Init Sequence:
+$
+$
+$
+RSTOP
+MECLEARX
+MECLEARY
+MECLEARZ
+MECLEARU
+I1=4204544
+I2=3136
+I3= (Configurable, GearX GetEncoderRatio)
+I4=0
+I5=0
+I6=0
+I7=10
+I8=0
+I9=2000
+I10=0
+I11=2
+
+
+
+
+GearX:
+	Configuration:
+		StepRatio: 10
+		PulseRatio: 398
+		EncoderRatio: 114
+		StepResolution: 8
+	GetStepRatio:
+		Formula: StepResolution * (10 / 10.0)
+		Ex: 8 * (10 / 10.0)
+	GetEncoderRatio:
+		Formula: PulseRatio * 4096 * GetStepRatio + EncoderRatio
+		Ex: 398 * 4096 * 8 + 114
+		
+		
+Write Terminator: 0x0D 0x0 (CR, NULL)
+Response Validation: Checks for an EOT character
+Baud Rate: 115200

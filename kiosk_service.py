@@ -1,34 +1,60 @@
-# main.py
-import time
-import sys
+"""
+Kiosk Service Controller
+Date: 2025-01-22 17:25:52
+Author: omgyeti
+"""
 
-import arcus
-#import fme
+import logging
+from arcus import ArcusController
+from arcus_commands import INIT_SEQUENCE
+
+# Set up logging
+logging.basicConfig(
+    level=logging.DEBUG,  # Changed to DEBUG for more detailed logs
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('kiosk_service.log'),
+        logging.StreamHandler()
+    ]
+)
+
+class KioskService:
+    def __init__(self):
+        self.arcus = ArcusController()
+        
+    def start(self):
+        logging.info("Starting Kiosk Service")
+        
+        # Connect to Arcus board
+        logging.info("Connecting to Arcus board...")
+        error = self.arcus.connect()
+        if error:
+            logging.error(f"Failed to connect to Arcus board: {error}")
+            return False
+        
+        # Run initialization sequence
+        logging.info("Running initialization sequence...")
+        error = self.arcus.run_sequence(INIT_SEQUENCE)
+        if error:
+            logging.error(f"Initialization failed: {error}")
+            self.arcus.close()
+            return False
+            
+        logging.info("Initialization completed successfully")
+        return True
+        
+    def shutdown(self):
+        logging.info("Shutting down Kiosk Service")
+        self.arcus.close()
 
 if __name__ == "__main__":
-    # 1. Initialize Arcus
-    arcus_ok = arcus.init_arcus()
-
-    # 2. Initialize FME, if using
-    # fme_ok = fme.init_fme()
-
-    if not arcus_ok:
-        print("Arcus init failed. Exiting.")
-        sys.exit(1)
-    # if not fme_ok:
-    #     print("FME init failed. Exiting.")
-    #     sys.exit(1)
-
-    print("Arcus device initialized successfully.")
-
-    # Keep running or do more logic
+    kiosk = KioskService()
     try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Shutting down...")
-
-    # Close everything on exit
-    arcus.close_arcus()
-    # fme.close_fme()
-    print("Exited cleanly.")
+        if kiosk.start():
+            logging.info("Kiosk Service started successfully")
+        else:
+            logging.error("Failed to start Kiosk Service")
+    except Exception as e:
+        logging.error(f"Unexpected error: {str(e)}")
+    finally:
+        kiosk.shutdown()
